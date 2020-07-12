@@ -1,0 +1,40 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="SacrificeDone_data" version="1.3.0" audacityversion="2.3.2" sel0="0.0000000000" sel1="7.3942500000" vpos="0" h="2.1460882098" zoom="256.2802393133" rate="48000.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
+	<tags>
+		<tag name="COMMENTS" value="NI Kontank Project Sam, instrumental section"/>
+		<tag name="TITLE" value="Beat end trailer"/>
+		<tag name="ARTIST" value="Leonid Klimenko"/>
+		<tag name="Software" value="FL Studio 10;Sound Forge Pro 11.0"/>
+		<tag name="GENRE" value="Soundtrack"/>
+	</tags>
+	<wavetrack name="210545__dneproman__epic-end-1" channel="2" linked="0" mute="0" solo="0" height="479" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="326086">
+				<waveblock start="0">
+					<simpleblockfile filename="e08088f6.au" len="163043" min="-0.828517" max="0.755353" rms="0.178924"/>
+				</waveblock>
+				<waveblock start="163043">
+					<simpleblockfile filename="e0808b78.au" len="163043" min="-0.87931" max="1.003559" rms="0.258877"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="5">
+				<controlpoint t="2.192911952579" val="0.014862000942"/>
+				<controlpoint t="4.409235776539" val="1.495753765106"/>
+				<controlpoint t="4.643354490337" val="1.500000000000"/>
+				<controlpoint t="7.195248470741" val="1.325902342796"/>
+				<controlpoint t="7.394249377470" val="0.171974539757"/>
+			</envelope>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="210545__dneproman__epic-end-1" channel="2" linked="0" mute="0" solo="0" height="475" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="5.68126984" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="177676">
+				<waveblock start="0">
+					<simpleblockfile filename="e0808471.au" len="177676" min="-0.601734" max="0.606614" rms="0.120728"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>

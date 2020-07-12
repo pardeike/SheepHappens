@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>SheepHappens</name>
+	<name>Sheep Happens</name>
 	<author>Andreas Pardeike</author>
 	<supportedVersions>
 		<li>1.1</li>
@@ -9,12 +9,14 @@
 		<li>
 			<packageId>brrainz.harmony</packageId>
 			<displayName>Harmony</displayName>
-			<steamWorkshopUrl>steam://url/CommunityFilePage/0000000000</steamWorkshopUrl>
+			<steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
 			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
 		</li>
 	</modDependencies>
 	<packageId>brrainz.sheephappens</packageId>
-	<description>Baaaah!
+	<description>Use sheep to your advantage! This mod gives you defensive capabilities by sacrificing sheep. Make a disguise to sneak past enemies or ignite a sheep so it becomes a sleep bomb, running towards your enemies and sleepoding into a puff of sweat dreams. Gather sheep around you as a flock to block entrances.
+
+Baaaah!
 
 Powered by Harmony Patch Library
 

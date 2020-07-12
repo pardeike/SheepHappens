@@ -1,0 +1,42 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="Sacrifice_data" version="1.3.0" audacityversion="2.3.2" sel0="0.0000000000" sel1="17.1081041667" vpos="0" h="0.0000000000" zoom="98.9813685175" rate="48000.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
+	<tags/>
+	<wavetrack name="SacrificeBuildup" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="579503">
+				<waveblock start="0">
+					<pcmaliasblockfile summaryfile="e0808c60.auf" aliasfile="C:\Users\andre\Source\ModRepos\SheepHappens\Sounds\SacrificeBuildup.wav" aliasstart="0" aliaslen="262144" aliaschannel="0" min="-0.498016" max="0.506989" rms="0.078794"/>
+				</waveblock>
+				<waveblock start="262144">
+					<pcmaliasblockfile summaryfile="e080880a.auf" aliasfile="C:\Users\andre\Source\ModRepos\SheepHappens\Sounds\SacrificeBuildup.wav" aliasstart="262144" aliaslen="262144" aliaschannel="0" min="-1.0" max="0.999969" rms="0.284828"/>
+				</waveblock>
+				<waveblock start="524288">
+					<pcmaliasblockfile summaryfile="e08089ac.auf" aliasfile="C:\Users\andre\Source\ModRepos\SheepHappens\Sounds\SacrificeBuildup.wav" aliasstart="524288" aliaslen="55215" aliaschannel="0" min="-1.0" max="0.999969" rms="0.432021"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="4">
+				<controlpoint t="5.112073186890" val="0.323943674564"/>
+				<controlpoint t="8.294490289400" val="0.654929578304"/>
+				<controlpoint t="9.355295990237" val="0.823943674564"/>
+				<controlpoint t="11.921435495119" val="0.211267590523"/>
+			</envelope>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="SacrificeDone" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="6.19789583" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="523690">
+				<waveblock start="0">
+					<simpleblockfile filename="e0808e78.au" len="211203" min="-0.880615" max="0.765106" rms="0.071276"/>
+				</waveblock>
+				<waveblock start="211203">
+					<simpleblockfile filename="e08085a6.au" len="254887" min="-1.202221" max="1.1894" rms="0.311634"/>
+				</waveblock>
+				<waveblock start="466090">
+					<simpleblockfile filename="e080866f.au" len="57600" min="-0.013409" max="0.01125" rms="0.001802"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>

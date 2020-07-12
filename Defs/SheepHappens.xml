@@ -6,18 +6,18 @@
 	<JobDef>
 		<defName>CreateSheepDisguise</defName>
 		<driverClass>SheepHappens.JobDriver_SheepDisguise</driverClass>
-		<reportString>creating disguise</reportString>
+		<reportString>creating disguise from</reportString>
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
 	</JobDef>
 
 	<WorkGiverDef>
 		<defName>SheepDisguise</defName>
-		<label>create sheep disguise</label>
+		<label>create disguise</label>
 		<giverClass>SheepHappens.WorkGiver_SheepDisguise</giverClass>
 		<workType>Handling</workType>
 		<scanThings>false</scanThings>
 		<verb>create disguise</verb>
-		<gerund>creating disguise</gerund>
+		<gerund>creating disguise from</gerund>
 		<priorityInType>80</priorityInType>
 		<tagToGive>Fieldwork</tagToGive>
 		<requiredCapacities>
@@ -41,8 +41,8 @@
 		<giverClass>SheepHappens.WorkGiver_IgniteSheepBomb</giverClass>
 		<workType>Handling</workType>
 		<scanThings>false</scanThings>
-		<verb>create bomb</verb>
-		<gerund>creating bomb</gerund>
+		<verb>ignite</verb>
+		<gerund>igniting</gerund>
 		<priorityInType>80</priorityInType>
 		<tagToGive>Fieldwork</tagToGive>
 		<requiredCapacities>

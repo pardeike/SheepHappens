@@ -57,8 +57,9 @@ namespace SheepHappens
 
 		public static void SetMaskWearer(Pawn pawn, int ticks)
 		{
+			if (pawn == null) return;
 			pawn.GetState().until = ticks == 0 ? 0 : GenTicks.TicksGame + ticks;
-			pawn.Map.attackTargetsCache.UpdateTarget(pawn);
+			pawn.Map?.attackTargetsCache?.UpdateTarget(pawn);
 		}
 
 		public static bool IsMaskWearer(Thing thing)

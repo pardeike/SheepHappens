@@ -71,12 +71,12 @@ namespace SheepHappens
 	{
 		public static void Postfix(Pawn __instance)
 		{
-			if (__instance.IsColonist == false) return;
+			if (__instance == null || __instance.IsColonist == false) return;
 			var state = __instance.GetState();
 			if (GenTicks.TicksGame > state.until)
 			{
 				Tools.SetMaskWearer(__instance, 0);
-				__instance.Map.mapPawns.AllPawnsSpawned
+				__instance.Map?.mapPawns.AllPawnsSpawned
 					.Where(p => p.def == Constants.sheepThingDef && p.CurJobDef == JobDefOf.FollowClose)
 					.Where(sheep => sheep.CurJob.targetA == __instance)
 					.Do(sheep => sheep.jobs.EndCurrentJob(JobCondition.Succeeded));
@@ -232,14 +232,15 @@ namespace SheepHappens
 			[HarmonyPriority(Priority.First)]
 			public static bool Prefix(Pawn __instance, ClamorDef type)
 			{
+				if (__instance.HostileTo(Faction.OfPlayer) == false) return true;
 				var job = __instance.CurJob;
 				if (job == null) return true;
 				if (job.def != JobDefOf.LayDown) return true;
-				if (__instance.Downed)
-				{
-					__instance.jobs.EndCurrentJob(JobCondition.Succeeded);
-					return true;
-				}
+				// if (__instance.Downed)
+				// {
+				// 	__instance.jobs.EndCurrentJob(JobCondition.Succeeded);
+				// 	return true;
+				// }
 				if (type != ClamorDefOf.Harm && type != ClamorDefOf.Impact) return true;
 				return (job.forceSleep == false);
 			}
@@ -252,14 +253,15 @@ namespace SheepHappens
 			[HarmonyPriority(Priority.First)]
 			public static bool Prefix(Pawn ___pawn)
 			{
+				if (___pawn.HostileTo(Faction.OfPlayer) == false) return true;
 				var job = ___pawn.CurJob;
 				if (job == null) return true;
 				if (job.def != JobDefOf.LayDown) return true;
-				if (___pawn.Downed)
-				{
-					___pawn.jobs.EndCurrentJob(JobCondition.Succeeded);
-					return true;
-				}
+				// if (___pawn.Downed)
+				// {
+				// 	___pawn.jobs.EndCurrentJob(JobCondition.Succeeded);
+				// 	return true;
+				// }
 				return (job.forceSleep == false);
 			}
 		}

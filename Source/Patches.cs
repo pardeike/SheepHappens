@@ -11,6 +11,16 @@ using Verse.Sound;
 
 namespace SheepHappens
 {
+	[HarmonyPatch(typeof(Game))]
+	[HarmonyPatch("FinalizeInit")]
+	static class Game_FinalizeInit_Patch
+	{
+		public static void Postfix()
+		{
+			ModCounter.Trigger();
+		}
+	}
+
 	// render sheep mask and costume
 	//
 	[HarmonyPatch(typeof(PawnRenderer))]

@@ -15,8 +15,7 @@ namespace SheepHappens
 
 		public override bool HasJobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			var pawn2 = thing as Pawn;
-			if (pawn2 == null || pawn2.Faction != Faction.OfPlayer)
+			if (!(thing is Pawn pawn2) || pawn2.Faction != Faction.OfPlayer)
 				return false;
 			if (CanInteractWithAnimal(pawn, pawn2, forced) == false)
 				return false;
@@ -25,8 +24,7 @@ namespace SheepHappens
 
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			var pawn2 = thing as Pawn;
-			if (pawn2 == null || pawn2.Faction != Faction.OfPlayer)
+			if (!(thing is Pawn pawn2) || pawn2.Faction != Faction.OfPlayer)
 				return null;
 			if (CanInteractWithAnimal(pawn, pawn2, forced) == false)
 				return null;

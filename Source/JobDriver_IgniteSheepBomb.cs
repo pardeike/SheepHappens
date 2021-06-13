@@ -36,7 +36,7 @@ namespace SheepHappens
 			return RCellFinder.BestOrderedGotoDestNear(cell, Victim);
 		}
 
-		protected override IEnumerable<Toil> MakeNewToils()
+		public override IEnumerable<Toil> MakeNewToils()
 		{
 			_ = this.FailOnAggroMentalState(TargetIndex.A);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);

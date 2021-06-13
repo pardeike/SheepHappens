@@ -39,7 +39,7 @@ namespace SheepHappens
 			return toil;
 		}
 
-		protected override IEnumerable<Toil> MakeNewToils()
+		public override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return BombToil();
 			yield return Toils_General.Do(() => Sleeplode(pawn, DamageWorker_ForcedSleep.GetSleepTicks()));

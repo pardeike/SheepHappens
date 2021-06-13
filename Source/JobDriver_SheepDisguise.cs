@@ -1,12 +1,10 @@
-﻿using HarmonyLib;
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.Sound;
-using static HarmonyLib.AccessTools;
 
 namespace SheepHappens
 {
@@ -15,7 +13,6 @@ namespace SheepHappens
 		public int sacrifiesTicks = -1;
 		const int totalDuration = (int)(60 * 17.108f);
 		static readonly int[] lightningStart = new float[] { 10.594f, 11.246f, 11.675f }.Select(sec => (int)(sec * 60)).ToArray();
-		static readonly FieldRef<TimeSlower, int> forceNormalSpeedUntilRef = AccessTools.FieldRefAccess<TimeSlower, int>("forceNormalSpeedUntil");
 
 		protected Pawn Victim => (Pawn)job.targetA.Thing;
 
@@ -56,7 +53,7 @@ namespace SheepHappens
 		void ForceNormalSpeedUntil(int delta)
 		{
 			var slower = Find.TickManager.slower;
-			forceNormalSpeedUntilRef(slower) = Mathf.Max(forceNormalSpeedUntilRef(slower), Find.TickManager.TicksGame + delta);
+			slower.forceNormalSpeedUntil = Mathf.Max(slower.forceNormalSpeedUntil, Find.TickManager.TicksGame + delta);
 		}
 
 		void ActivateMask()
@@ -67,7 +64,7 @@ namespace SheepHappens
 			Tools.SetMaskWearer(pawn, duration);
 		}
 
-		protected override IEnumerable<Toil> MakeNewToils()
+		public override IEnumerable<Toil> MakeNewToils()
 		{
 			_ = this.FailOnAggroMentalState(TargetIndex.A);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);

@@ -8,7 +8,7 @@ namespace SheepHappens
 	{
 		public static int GetSleepTicks()
 		{
-			var hours = GenMath.LerpDoubleClamped(0, 5, 4f, 0.2f, Find.Storyteller.difficulty.difficulty);
+			var hours = GenMath.LerpDoubleClamped(0, 5, 4f, 0.2f, Find.Storyteller.difficulty.threatScale);
 			return (int)(GenDate.TicksPerHour * hours);
 		}
 

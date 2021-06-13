@@ -105,8 +105,7 @@ namespace SheepHappens
 		[HarmonyPriority(Priority.First)]
 		public static void Prefix(Thing __instance, IntVec3 value)
 		{
-			var pawn = __instance as Pawn;
-			if (pawn == null) return;
+			if (!(__instance is Pawn pawn)) return;
 			if (pawn.Position == value) return;
 			var map = pawn.Map;
 			if (map == null) return;
@@ -316,8 +315,7 @@ namespace SheepHappens
 			public static void Postfix(Thing thing, StatDef stat, ref float __result)
 			{
 				if (stat != StatDefOf.TameAnimalChance) return;
-				var pawn = thing as Pawn;
-				if (pawn == null) return;
+				if (!(thing is Pawn pawn)) return;
 				if (pawn.IsColonist == false) return;
 				__result *= Tools.IsMaskWearer(pawn) ? 4f : 2f;
 			}

@@ -64,8 +64,7 @@ namespace SheepHappens
 
 		public static bool IsMaskWearer(Thing thing)
 		{
-			var pawn = thing as Pawn;
-			if (pawn == null) return false;
+			if (!(thing is Pawn pawn)) return false;
 			if (pawn.IsColonist == false) return false;
 			return (pawn.GetState().until > 0);
 		}

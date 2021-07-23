@@ -1,6 +1,5 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
 using Verse;
 using Verse.AI;
 using Verse.Sound;
@@ -20,20 +19,7 @@ namespace SheepHappens
 
 		IntVec3 TargetCell()
 		{
-			var enemies = Victim.Map.attackTargetsCache.TargetsHostileToFaction(Faction.OfPlayer).OfType<Pawn>();
-			var from = Victim.Position;
-			var pos = IntVec2.Zero;
-			var count = 0;
-			foreach (var enemy in enemies.OrderBy(pawn => pawn.Position.DistanceToSquared(from)))
-			{
-				var c = enemy.Position;
-				pos += new IntVec2(c.x, c.z);
-				count++;
-				if (count == Constants.enemiesToConsiderForBomb) break;
-			}
-			pos /= count;
-			var cell = pos.ToIntVec3;
-			return RCellFinder.BestOrderedGotoDestNear(cell, Victim);
+			return Tools.BestEnemyPosition(Victim);
 		}
 
 		public override IEnumerable<Toil> MakeNewToils()

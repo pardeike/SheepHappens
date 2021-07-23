@@ -60,6 +60,7 @@ namespace SheepHappens
 			if (pawn == null) return;
 			pawn.GetState().until = ticks == 0 ? 0 : GenTicks.TicksGame + ticks;
 			pawn.Map?.attackTargetsCache?.UpdateTarget(pawn);
+			_ = GlobalTextureAtlasManager.TryMarkPawnFrameSetDirty(pawn);
 		}
 
 		public static bool IsMaskWearer(Thing thing)
@@ -67,6 +68,25 @@ namespace SheepHappens
 			if (!(thing is Pawn pawn)) return false;
 			if (pawn.IsColonist == false) return false;
 			return (pawn.GetState().until > 0);
+		}
+
+		public static IntVec3 BestEnemyPosition(Pawn sheep)
+		{
+			var enemies = sheep.Map.attackTargetsCache.TargetsHostileToFaction(Faction.OfPlayer).OfType<Pawn>();
+			var from = sheep.Position;
+			var pos = IntVec2.Zero;
+			var count = 0;
+			foreach (var enemy in enemies.OrderBy(pawn => pawn.Position.DistanceToSquared(from)))
+			{
+				var c = enemy.Position;
+				pos += new IntVec2(c.x, c.z);
+				count++;
+				if (count == Constants.enemiesToConsiderForBomb) break;
+			}
+			if (count == 0) return IntVec3.Invalid;
+			pos /= count;
+			var cell = pos.ToIntVec3;
+			return RCellFinder.BestOrderedGotoDestNear(cell, sheep);
 		}
 	}
 }

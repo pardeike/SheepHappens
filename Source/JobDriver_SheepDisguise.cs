@@ -37,9 +37,9 @@ namespace SheepHappens
 				var loc = Victim.Position.ToVector3Shifted();
 				for (var j = 0; j < 3 * i; j++)
 				{
-					MoteMaker.ThrowSmoke(loc, Map, i * 2f);
-					MoteMaker.ThrowMicroSparks(loc, Map);
-					MoteMaker.ThrowLightningGlow(loc, Map, i * 2f);
+					FleckMaker.ThrowSmoke(loc, Map, i * 2f);
+					FleckMaker.ThrowMicroSparks(loc, Map);
+					FleckMaker.ThrowLightningGlow(loc, Map, i * 2f);
 				}
 			}
 			if (sacrifiesTicks >= tick && sacrifiesTicks < tick + 6)

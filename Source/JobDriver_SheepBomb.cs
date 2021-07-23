@@ -23,8 +23,10 @@ namespace SheepHappens
 
 		Toil BombToil()
 		{
+			var destination = TargetLocA;
+
 			var toil = new Toil();
-			toil.initAction = () => toil.actor.pather.StartPath(TargetLocA, PathEndMode.OnCell);
+			toil.initAction = () => toil.actor.pather.StartPath(destination, PathEndMode.OnCell);
 			toil.tickAction = () =>
 			{
 				if (sustainer == null)

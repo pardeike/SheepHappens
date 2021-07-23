@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!-- create disguise -->
+
+	<JobDef>
+		<defName>CreateSheepDisguise</defName>
+		<driverClass>SheepHappens.JobDriver_SheepDisguise</driverClass>
+		<reportString>creating disguise from</reportString>
+		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+	</JobDef>
+
+	<WorkGiverDef>
+		<defName>SheepDisguise</defName>
+		<label>create disguise</label>
+		<giverClass>SheepHappens.WorkGiver_SheepDisguise</giverClass>
+		<workType>Handling</workType>
+		<scanThings>false</scanThings>
+		<verb>create disguise</verb>
+		<gerund>creating disguise from</gerund>
+		<priorityInType>80</priorityInType>
+		<tagToGive>Fieldwork</tagToGive>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+		<canBeDoneWhileDrafted>true</canBeDoneWhileDrafted>
+	</WorkGiverDef>
+
+	<!-- ignite -->
+
+	<JobDef>
+		<defName>IgniteSheepBomb</defName>
+		<driverClass>SheepHappens.JobDriver_IgniteSheepBomb</driverClass>
+		<reportString>igniting</reportString>
+		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+	</JobDef>
+
+	<WorkGiverDef>
+		<defName>IgniteSheepBomb</defName>
+		<label>create sheep bomb</label>
+		<giverClass>SheepHappens.WorkGiver_IgniteSheepBomb</giverClass>
+		<workType>Handling</workType>
+		<scanThings>false</scanThings>
+		<verb>ignite</verb>
+		<gerund>igniting</gerund>
+		<priorityInType>80</priorityInType>
+		<tagToGive>Fieldwork</tagToGive>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+		<canBeDoneWhileDrafted>true</canBeDoneWhileDrafted>
+	</WorkGiverDef>
+
+	<!-- sheep bomb -->
+
+	<JobDef>
+		<defName>SheepBomb</defName>
+		<driverClass>SheepHappens.JobDriver_SheepBomb</driverClass>
+		<reportString>attacking nearest enemy</reportString>
+		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+	</JobDef>
+
+	<!-- damage -->
+
+	<DamageDef ParentName="StunBase">
+		<defName>ForcedSleep</defName>
+		<label>sleep</label>
+		<workerClass>SheepHappens.DamageWorker_ForcedSleep</workerClass>
+		<deathMessage>{0} has been put to sleep.</deathMessage>
+		<defaultDamage>0</defaultDamage>
+		<explosionCellFleck>BlastDry</explosionCellFleck>
+		<soundExplosion>SleepPuff</soundExplosion>
+	</DamageDef>
+
+	<!-- game condition -->
+
+	<GameConditionDef>
+		<defName>Sacrifice</defName>
+		<conditionClass>SheepHappens.GameCondition_Sacrifice</conditionClass>
+		<label>sacrificing sheep</label>
+		<description>A sheep will be sacrified for making a sheep disguise.</description>
+	</GameConditionDef>
+
+	<!-- sounds -->
+
+	<SoundDef>
+		<defName>SleepPuff</defName>
+		<context>MapOnly</context>
+		<maxSimultaneous>2</maxSimultaneous>
+		<subSounds>
+			<li>
+				<onCamera>true</onCamera>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>SleepBoom</clipPath>
+					</li>
+				</grains>
+				<volumeRange>
+					<min>90</min>
+					<max>90</max>
+				</volumeRange>
+				<distRange>
+					<min>1000</min>
+					<max>10000</max>
+				</distRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>SacrificeSheep</defName>
+		<context>MapOnly</context>
+		<maxSimultaneous>2</maxSimultaneous>
+		<subSounds>
+			<li>
+				<onCamera>true</onCamera>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>SacrificeSheep</clipPath>
+					</li>
+				</grains>
+				<volumeRange>
+					<min>75</min>
+					<max>75</max>
+				</volumeRange>
+				<distRange>
+					<min>1000</min>
+					<max>10000</max>
+				</distRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>SheepIgnite</defName>
+		<context>MapOnly</context>
+		<maxSimultaneous>2</maxSimultaneous>
+		<subSounds>
+			<li>
+				<onCamera>true</onCamera>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>SheepIgnite</clipPath>
+					</li>
+				</grains>
+				<volumeRange>
+					<min>90</min>
+					<max>90</max>
+				</volumeRange>
+				<distRange>
+					<min>1000</min>
+					<max>10000</max>
+				</distRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+</Defs>

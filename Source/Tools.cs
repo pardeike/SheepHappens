@@ -16,16 +16,18 @@ namespace SheepHappens
 			if (size.x <= 0 || size.y <= 0)
 				size = new Vector2(1.5f, 1.5f);
 
-			KeyValuePair<BodyTypeDef, Graphic> Get(FieldInfo field)
+			KeyValuePair<BodyTypeDef, Graphic>? Get(FieldInfo field)
 			{
-				var bodyTypeDef = field.GetValue(null) as BodyTypeDef;
+				if (!(field.GetValue(null) is BodyTypeDef bodyTypeDef))
+					return null;
 				var graphic = GraphicDatabase.Get<Graphic_Multi>($"{path}_{field.Name}", shaderDef.Shader, size, Color.white);
 				return new KeyValuePair<BodyTypeDef, Graphic>(bodyTypeDef, graphic);
 			}
 
 			return AccessTools.GetDeclaredFields(typeof(BodyTypeDefOf))
 				.Select(Get)
-				.ToDictionary(pair => pair.Key, pair => pair.Value);
+				.Where(pair => pair.HasValue)
+				.ToDictionary(pair => pair.Value.Key, pair => pair.Value.Value);
 		}
 
 		public static int FindIndexBefore<T>(this List<T> list, int index, Predicate<T> match)

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ThingDef>
+	<defName>DisguiseMask</defName>
+	<thingClass>Apparel</thingClass>
+	<category>Item</category>
+	<drawerType>MapMeshOnly</drawerType>
+	<drawGUIOverlay>true</drawGUIOverlay>
+	<altitudeLayer>Item</altitudeLayer>
+	<graphicData>
+		<texPath>DisguiseMask/DisguiseMask</texPath>
+		<graphicClass>Graphic_Single</graphicClass>
+		<drawSize>1.2</drawSize>
+	</graphicData>
+	<thingCategories>
+		<li>Headgear</li>
+	</thingCategories>
+	<apparel>
+		<wornGraphicPath>DisguiseMask/DisguiseMask</wornGraphicPath>
+		<bodyPartGroups>
+			<li>UpperHead</li>
+		</bodyPartGroups>
+		<layers>
+			<li>Overhead</li>
+		</layers>
+	</apparel>
+</ThingDef>

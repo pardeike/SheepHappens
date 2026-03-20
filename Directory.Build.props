@@ -1,0 +1,10 @@
+<Project>
+	<PropertyGroup>
+		<ModName>Sheep Happens</ModName>
+		<ModFileName>SheepHappens</ModFileName>
+		<Repository>https://github.com/pardeike/SheepHappens</Repository>
+		<ModVersion>1.7.0.0</ModVersion>
+		<ProjectGuid>{45F34BA3-B693-4240-8364-AB2A99759BAD}</ProjectGuid>
+		<RIMWORLD_MOD_DIR Condition="'$(RIMWORLD_MOD_DIR)' == '' and Exists('/Applications/RimWorldMac.app/Mods')">/Applications/RimWorldMac.app/Mods</RIMWORLD_MOD_DIR>
+	</PropertyGroup>
+</Project>

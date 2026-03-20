@@ -17,22 +17,36 @@ namespace SheepHappens
 			return pawn.Reserve(Victim, job, 1, -1, null, errorOnFailed);
 		}
 
-		IntVec3 TargetCell()
+		IntVec3 FindBombTargetCell()
 		{
 			return Tools.BestEnemyPosition(Victim);
+		}
+
+		Toil CreateIgniteToil()
+		{
+			var toil = Toils_General.WaitWith(TargetIndex.A, Constants.igniteSheepBombDuration, false, false);
+			toil.WithAlwaysVisibleProgressBarToilDelay(this, TargetIndex.A, Constants.igniteSheepBombDuration);
+			return toil;
 		}
 
 		public override IEnumerable<Toil> MakeNewToils()
 		{
 			_ = this.FailOnAggroMentalState(TargetIndex.A);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			yield return Toils_General.WaitWith(TargetIndex.A, Constants.igniteSheepBombDuration, true, false);
+			yield return CreateIgniteToil();
 			yield return Toils_General.Do(delegate
 			{
-				SoundStarter.PlayOneShot(Defs.SheepIgnite, SoundInfo.InMap(Victim));
-				TargetThingA.TryAttachFire(Constants.sheepBombFireAmount);
+				var targetCell = FindBombTargetCell();
+				if (targetCell.IsValid == false)
+				{
+					EndJobWith(JobCondition.Incompletable);
+					return;
+				}
 
-				var job = JobMaker.MakeJob(Defs.SheepBomb, TargetCell());
+				SoundStarter.PlayOneShot(Defs.SheepIgnite, SoundInfo.InMap(Victim));
+				TargetThingA.TryAttachFire(Constants.sheepBombFireAmount, pawn);
+
+				var job = JobMaker.MakeJob(Defs.SheepBomb, targetCell);
 				job.checkOverrideOnExpire = true;
 				job.collideWithPawns = false;
 				job.expiryInterval = 0;

@@ -6,29 +6,22 @@ using Verse.AI;
 
 namespace SheepHappens
 {
-	public class Workgiver_SheepDisguise : WorkGiver_InteractAnimal
+	public class Workgiver_SheepDisguise : WorkGiver_PlayerOwnedSheepInteraction
 	{
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			return pawn.Map.mapPawns.AllPawnsSpawned.Where(p => p.Faction == Faction.OfPlayer && p.def == Constants.sheepThingDef);
+			return PlayerOwnedSheepOnMap(pawn);
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			if (!(thing is Pawn pawn2) || pawn2.Faction != Faction.OfPlayer)
-				return false;
-			if (CanInteractWithAnimal(pawn, pawn2, forced) == false)
-				return false;
-			return true;
+			return GetInteractablePlayerOwnedSheep(pawn, thing, forced) != null;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			if (!(thing is Pawn pawn2) || pawn2.Faction != Faction.OfPlayer)
-				return null;
-			if (CanInteractWithAnimal(pawn, pawn2, forced) == false)
-				return null;
-			return JobMaker.MakeJob(Defs.CreateSheepDisguise, thing);
+			var sheep = GetInteractablePlayerOwnedSheep(pawn, thing, forced);
+			return sheep == null ? null : JobMaker.MakeJob(Defs.CreateSheepDisguise, sheep);
 		}
 	}
 }

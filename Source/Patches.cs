@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using RimWorld.Planet;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Verse;
 using Verse.AI;
@@ -9,54 +9,20 @@ using Verse.Sound;
 
 namespace SheepHappens
 {
-	// render sheep mask and costume
-	//
-	[HarmonyPatch(typeof(PawnRenderer), nameof(PawnRenderer.RenderPawnInternal))]
-	static class PawnRenderer_RenderPawnInternal_Patch
+	static class PatchHelpers
 	{
-		static ApparelGraphicRecord? sheepMask = null;
-		static readonly Dictionary<Pawn, ApparelGraphicRecord> sheepCostumes = new Dictionary<Pawn, ApparelGraphicRecord>();
-
-		[HarmonyPriority(Priority.First)]
-		public static void Prefix(PawnRenderer __instance, ref bool __state)
+		public static bool IsBurningSheep(Pawn pawn)
 		{
-			var pawn = __instance.graphics.pawn;
-			if (pawn.IsColonist == false) return;
-
-			if (pawn.GetState().until == 0) return;
-
-			if (sheepCostumes.TryGetValue(pawn, out var costume) == false)
-			{
-				costume = GetApparelRecord(pawn, "costume");
-				sheepCostumes[pawn] = costume;
-			}
-			if (sheepMask.HasValue == false)
-				sheepMask = GetApparelRecord(null, "mask");
-
-			var apparelGraphics = __instance.graphics.apparelGraphics;
-			apparelGraphics.Insert(0, sheepMask.Value);
-			apparelGraphics.Insert(0, costume);
-			__state = true;
+			return Tools.IsSheep(pawn) && pawn.IsBurning();
 		}
 
-		public static void Postfix(PawnRenderer __instance, bool __state)
+		public static bool IsForcedSleepLayDown(Pawn pawn)
 		{
-			if (__state == false) return;
-			if (sheepMask.HasValue)
-				_ = __instance.graphics.apparelGraphics.Remove(sheepMask.Value);
-			var pawn = __instance.graphics.pawn;
-			if (sheepCostumes.ContainsKey(pawn))
-				_ = __instance.graphics.apparelGraphics.Remove(sheepCostumes[pawn]);
-		}
+			if (pawn == null || pawn.HostileTo(Faction.OfPlayer) == false)
+				return false;
 
-		static ApparelGraphicRecord GetApparelRecord(Pawn pawn, string name)
-		{
-			var path = @$"{Main.rootDir}{Path.DirectorySeparatorChar}Private{Path.DirectorySeparatorChar}{name}.xml";
-			var xml = File.ReadAllText(path);
-			var def = DirectXmlLoader.ItemFromXmlString<ThingDef>(xml, path);
-			var apparel = ThingMaker.MakeThing(def) as Apparel;
-			_ = ApparelGraphicRecordGetter.TryGetGraphicApparel(apparel, pawn?.story.bodyType ?? BodyTypeDefOf.Male, out var item);
-			return item;
+			var job = pawn.CurJob;
+			return job != null && job.def == JobDefOf.LayDown && job.forceSleep;
 		}
 	}
 
@@ -69,7 +35,7 @@ namespace SheepHappens
 		{
 			if (__instance == null || __instance.IsColonist == false) return;
 			var state = __instance.GetState();
-			if (GenTicks.TicksGame > state.until)
+			if (state.until > 0 && GenTicks.TicksGame > state.until)
 			{
 				Tools.SetMaskWearer(__instance, 0);
 				__instance.Map?.mapPawns.AllPawnsSpawned
@@ -134,7 +100,7 @@ namespace SheepHappens
 		{
 			var parent = f.parent;
 			if (parent == null) return true;
-			if (parent.def != Constants.sheepThingDef) return true;
+			if (Tools.IsSheep(parent) == false) return true;
 
 			__result = true;
 			return false;
@@ -164,12 +130,12 @@ namespace SheepHappens
 	static class Fire_AttachTo_Patch
 	{
 		[HarmonyPriority(Priority.Last)]
-		public static void Postfix(Thing parent)
+		public static void Postfix(Thing newParent)
 		{
-			if (parent == null) return;
-			if (parent.def != Constants.sheepThingDef) return;
-			if (parent.IsBurning()) return;
-			SoundStarter.PlayOneShot(Defs.SheepIgnite, SoundInfo.InMap(parent));
+			if (newParent == null) return;
+			if (newParent.def != Constants.sheepThingDef) return;
+			if (newParent.IsBurning()) return;
+			SoundStarter.PlayOneShot(Defs.SheepIgnite, SoundInfo.InMap(newParent));
 		}
 	}
 
@@ -181,9 +147,7 @@ namespace SheepHappens
 		[HarmonyPriority(Priority.Last)]
 		public static void Postfix(Pawn ___pawn)
 		{
-			if (___pawn == null) return;
-			if (___pawn.def != Constants.sheepThingDef) return;
-			if (___pawn.IsBurning() == false) return;
+			if (PatchHelpers.IsBurningSheep(___pawn) == false) return;
 			JobDriver_SheepBomb.Sleeplode(___pawn, DamageWorker_ForcedSleep.GetSleepTicks());
 		}
 	}
@@ -197,7 +161,7 @@ namespace SheepHappens
 		public static bool Prefix(Pawn ___pawn)
 		{
 			if (___pawn == null) return true;
-			if (___pawn.def != Constants.sheepThingDef) return true;
+			if (Tools.IsSheep(___pawn) == false) return true;
 			return (___pawn.IsBurning() == false);
 		}
 	}
@@ -210,8 +174,7 @@ namespace SheepHappens
 		[HarmonyPriority(Priority.First)]
 		public static bool Prefix(Pawn __instance)
 		{
-			if (__instance.def != Constants.sheepThingDef) return true;
-			if (__instance.IsBurning() == false) return true;
+			if (PatchHelpers.IsBurningSheep(__instance) == false) return true;
 			JobDriver_SheepBomb.Sleeplode(__instance, DamageWorker_ForcedSleep.GetSleepTicks());
 			return false;
 		}
@@ -225,17 +188,8 @@ namespace SheepHappens
 		[HarmonyPriority(Priority.First)]
 		public static bool Prefix(Pawn __instance, ClamorDef type)
 		{
-			if (__instance.HostileTo(Faction.OfPlayer) == false) return true;
-			var job = __instance.CurJob;
-			if (job == null) return true;
-			if (job.def != JobDefOf.LayDown) return true;
-			// if (__instance.Downed)
-			// {
-			// 	__instance.jobs.EndCurrentJob(JobCondition.Succeeded);
-			// 	return true;
-			// }
-			if (type != ClamorDefOf.Harm && type != ClamorDefOf.Impact) return true;
-			return (job.forceSleep == false);
+			if (PatchHelpers.IsForcedSleepLayDown(__instance) == false) return true;
+			return type != ClamorDefOf.Harm && type != ClamorDefOf.Impact;
 		}
 	}
 	//
@@ -245,16 +199,7 @@ namespace SheepHappens
 		[HarmonyPriority(Priority.First)]
 		public static bool Prefix(Pawn ___pawn)
 		{
-			if (___pawn.HostileTo(Faction.OfPlayer) == false) return true;
-			var job = ___pawn.CurJob;
-			if (job == null) return true;
-			if (job.def != JobDefOf.LayDown) return true;
-			// if (___pawn.Downed)
-			// {
-			// 	___pawn.jobs.EndCurrentJob(JobCondition.Succeeded);
-			// 	return true;
-			// }
-			return (job.forceSleep == false);
+			return PatchHelpers.IsForcedSleepLayDown(___pawn) == false;
 		}
 	}
 
@@ -322,7 +267,7 @@ namespace SheepHappens
 	static class StockGenerator_Animals_PawnKindAllowed_Patch
 	{
 		[HarmonyPriority(Priority.First)]
-		public static bool Prefix(PawnKindDef kind, int forTile, ref bool __result)
+		public static bool Prefix(PawnKindDef kind, PlanetTile forTile, ref bool __result)
 		{
 			if (kind != Constants.sheepKindDef) return true;
 			var map = Current.Game.FindMap(forTile);
@@ -339,8 +284,9 @@ namespace SheepHappens
 	static class WildAnimalSpawner_SpawnRandomWildAnimalAt_Patch
 	{
 		[HarmonyPriority(Priority.First)]
-		public static bool Prefix(IntVec3 loc, Map ___map, ref bool __result)
+		public static bool Prefix(IntVec3 loc, Map ___map, PawnKindDef animalKind, ref bool __result)
 		{
+			if (animalKind != null) return true;
 			if (___map == null || Rand.Chance(Constants.wildSheepSpawnChance) == false) return true;
 			if (___map.Biome.isExtremeBiome) return true;
 			if (___map.mapPawns.AllPawnsSpawned.Count(pawn => pawn.def == Constants.sheepThingDef) >= Constants.desiredSheepCount) return true;

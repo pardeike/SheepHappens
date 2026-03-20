@@ -10,6 +10,9 @@ namespace SheepHappens
 		public static JobDef IgniteSheepBomb;
 		public static JobDef SheepBomb;
 
+		public static ThingDef DisguiseMask;
+		public static ThingDef DisguiseCostume;
+
 		public static SoundDef SleepPuff;
 		public static SoundDef SacrificeSheep;
 		public static SoundDef SheepIgnite;

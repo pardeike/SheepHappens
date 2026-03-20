@@ -6,29 +6,30 @@ using Verse.AI;
 
 namespace SheepHappens
 {
-	public class Workgiver_IgniteSheepBomb : WorkGiver_InteractAnimal
+	public class Workgiver_IgniteSheepBomb : WorkGiver_PlayerOwnedSheepInteraction
 	{
+		static bool CanBombTarget(Pawn sheep)
+		{
+			return sheep != null && Tools.BestEnemyPosition(sheep).IsValid;
+		}
+
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			return pawn.Map.mapPawns.AllPawnsSpawned.Where(p => p.Faction == Faction.OfPlayer && p.def == Constants.sheepThingDef);
+			return PlayerOwnedSheepOnMap(pawn);
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			if (!(thing is Pawn pawn2) || pawn2.Faction != Faction.OfPlayer)
-				return false;
-			if (CanInteractWithAnimal(pawn, pawn2, forced) == false)
-				return false;
-			return true;
+			var sheep = GetInteractablePlayerOwnedSheep(pawn, thing, forced);
+			return sheep != null && CanBombTarget(sheep);
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing thing, bool forced = false)
 		{
-			if (!(thing is Pawn pawn2) || pawn2.Faction != Faction.OfPlayer)
+			var sheep = GetInteractablePlayerOwnedSheep(pawn, thing, forced);
+			if (sheep == null || CanBombTarget(sheep) == false)
 				return null;
-			if (CanInteractWithAnimal(pawn, pawn2, forced) == false)
-				return null;
-			return JobMaker.MakeJob(Defs.IgniteSheepBomb, thing);
+			return JobMaker.MakeJob(Defs.IgniteSheepBomb, sheep);
 		}
 	}
 }

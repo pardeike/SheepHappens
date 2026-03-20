@@ -1,5 +1,5 @@
 <Project>
-	<PropertyGroup>
+    <PropertyGroup>
 		<ModName>Sheep Happens</ModName>
 		<ModFileName>SheepHappens</ModFileName>
 		<Repository>https://github.com/pardeike/SheepHappens</Repository>

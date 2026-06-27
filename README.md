@@ -1,5 +1,21 @@
 # Sheep Happens
 
-Use sheep to your advantage! This mod gives you defensive capabilities by sacrificing sheep. Make a disguise to sneak past enemies or ignite a sheep so it becomes a sleep bomb, running towards your enemies and sleepoding into a puff of sweat dreams. Gather sheep around you as a flock to block entrances.
+Sheep Happens turns sheep into questionable tactical tools.
+
+Use sheep disguises to slip past enemies, ignite a sheep into a sleepy little disaster, or gather a flock to clog an entrance.
+
+It is defensive, strange, and not especially kind to sheep. Baaaah.
+
+----
+
+If you are looking for the Steam Workshop versions:
+https://steamcommunity.com/id/brrainz/myworkshopfiles/
+
+For mod support/feedback, visit my Discord:
+https://discord.gg/CYnWvrbNhD
+
+Support me with as little as $1:
+https://patreon.com/pardeike
 
 ENJOY
+/Brrainz

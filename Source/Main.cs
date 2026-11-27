@@ -9,7 +9,7 @@ namespace SheepHappens
 
 		public Main(ModContentPack content) : base(content)
 		{
-			new Harmony(HarmonyId).PatchAll();
+			new Harmony(HarmonyId).PatchAll(typeof(Main).Assembly);
 		}
 	}
 }

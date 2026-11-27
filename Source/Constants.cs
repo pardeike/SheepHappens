@@ -2,7 +2,7 @@
 
 namespace SheepHappens
 {
-	class Constants
+	public static class Constants
 	{
 		public const float sheepGatheringRadius = 8f;
 		public const float sheepFollowRadius = 2f;

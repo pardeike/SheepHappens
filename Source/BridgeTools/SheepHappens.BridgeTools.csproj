@@ -1,0 +1,80 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<RootNamespace>$(ModFileName)</RootNamespace>
+		<AssemblyName>SheepHappens.BridgeTools</AssemblyName>
+		<TargetFramework>net10.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<OutputPath>..\..\artifacts\BridgeTools\SheepHappens\</OutputPath>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <GenerateDependencyFile>false</GenerateDependencyFile>
+        <NoWarn>$(NoWarn);NU1701</NoWarn>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<Version>$(ModVersion)</Version>
+		<AssemblyVersion>$(ModVersion)</AssemblyVersion>
+		<FileVersion>$(ModVersion)</FileVersion>
+		<PackageVersion>$(ModVersion)</PackageVersion>
+		<InformationalVersion>$(ModVersion)</InformationalVersion>
+		<Company>Brrainz</Company>
+		<Authors>Andreas Pardeike</Authors>
+		<Copyright>Copyright Andreas Pardeike</Copyright>
+		<PackageProjectUrl>$(Repository)</PackageProjectUrl>
+		<RepositoryUrl>$(Repository)</RepositoryUrl>
+		<Product>$(ModName)</Product>
+		<SheepHappensAssemblyPath Condition="'$(SheepHappensAssemblyPath)' == ''">$(MSBuildProjectDirectory)/../../1.7/Assemblies/SheepHappens.dll</SheepHappensAssemblyPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugSymbols>false</DebugSymbols>
+		<Optimize>true</Optimize>
+		<DebugType>none</DebugType>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugSymbols>true</DebugSymbols>
+		<DefineConstants>RW16;TRACE;DEBUG</DefineConstants>
+		<Optimize>false</Optimize>
+		<DebugType>portable</DebugType>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="SheepHappens">
+			<HintPath>$(SheepHappensAssemblyPath)</HintPath>
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.7.5021-unstable" GeneratePathProperty="true" />
+		<PackageReference Include="RimBridgeServer.Sdk" Version="2.0.0" PrivateAssets="all" ExcludeAssets="runtime" />
+		<PackageReference Include="TaskPubliciser" Version="1.0.3" />
+	</ItemGroup>
+
+	<Target Name="PrepareRimWorldReferences" BeforeTargets="ResolveAssemblyReferences">
+		<PropertyGroup>
+			<AssemblyCSharp>$(PkgKrafs_Rimworld_Ref)\ref\net10.0\Assembly-CSharp.dll</AssemblyCSharp>
+			<PubliciseOutputPath>$(MSBuildProjectDirectory)/obj/publicised/</PubliciseOutputPath>
+			<AssemblyCSharp_Publicised>$(PubliciseOutputPath)Assembly-CSharp_publicised.dll</AssemblyCSharp_Publicised>
+		</PropertyGroup>
+		<MakeDir Directories="$(PubliciseOutputPath)" />
+		<Publicise TargetAssemblyPath="$(AssemblyCSharp)" OutputPath="$(PubliciseOutputPath)" />
+		<ItemGroup>
+			<Reference Include="$(AssemblyCSharp_Publicised)">
+				<SpecificVersion>false</SpecificVersion>
+				<HintPath>$(AssemblyCSharp_Publicised)</HintPath>
+				<Implicit>true</Implicit>
+				<Private>false</Private>
+			</Reference>
+		</ItemGroup>
+	</Target>
+
+	<Target Name="UpdateReferences" AfterTargets="ResolveLockFileReferences">
+		<ItemGroup>
+			<Reference Remove="$(PkgKrafs_Rimworld_Ref)\ref\net10.0\Assembly-CSharp.dll" />
+		</ItemGroup>
+	</Target>
+
+</Project>
